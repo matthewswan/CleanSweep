@@ -15,6 +15,11 @@ public class SimulatorImpl implements Simulator {
     private Coords currentLocation;
     private Layout layout;
    
+    SimulatorImpl(String layoutFile, Coords initialLocation) throws InvalidLayoutFileException {
+        currentLocation = new Coords(initialLocation.x, initialLocation.y);
+        layout = new LayoutImpl(layoutFile);
+    }
+    
     @Override
     public void move(Direction direction) throws InvalidMoveException {
         ObstacleType obstacle = getObstacle(direction);

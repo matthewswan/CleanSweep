@@ -15,6 +15,11 @@ import java.util.Map;
 public class LayoutImpl implements Layout {
     private HashMap<Coords, LayoutCell> grid;
     
+    LayoutImpl(String layoutFile) throws InvalidLayoutFileException {
+        LayoutLoader loader = new LayoutLoader(layoutFile);
+        grid = loader.loadFromFile();
+    }
+    
     @Override
     public CarpetType getCarpet(Coords cell) throws InvalidCoordinatesException {
         CarpetType result = null;
