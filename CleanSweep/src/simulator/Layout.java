@@ -5,10 +5,15 @@
  */
 package simulator;
 
+import java.util.Map;
 /**
  *
  * @author James Doyle
  */
 interface Layout {
-     
+    public CarpetType getCarpet(Coords cell) throws InvalidCoordinatesException;
+    public boolean hasDirt(Coords cell) throws InvalidCoordinatesException;
+    public void removeDirt(Coords cell) throws NoDirtException, InvalidCoordinatesException;
+    public Map<Direction, ObstacleType> getBorders(Coords cell) throws InvalidCoordinatesException;
+    public boolean hasCharger(Coords cell) throws InvalidCoordinatesException;
 }

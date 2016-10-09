@@ -22,4 +22,9 @@ public class Coords {
         x += offset.x;
         y += offset.y;
     }
+    
+    @Override
+    public String toString() {
+        return String.format("(%d, %d)", x, y);
+    }
 }

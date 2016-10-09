@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class SimulatorImpl implements Simulator {
     private Coords currentLocation;
+    private Layout layout;
    
     @Override
     public void move(Direction direction) throws InvalidMoveException {
@@ -24,32 +25,95 @@ public class SimulatorImpl implements Simulator {
     
     @Override
     public boolean isDirty() {
-        return true; // ### To Implement
+        boolean result = false;
+        try
+        {
+            result = layout.hasDirt(currentLocation);
+        }
+        catch(InvalidCoordinatesException e)
+        {
+            System.err.println("Simulation is in invalid state: " + e.getMessage());
+            throw new InvalidSimulationException("Simulation error, see error console for details.");
+        }
+        return result;
     }
     
     @Override
     public void removeDirt() throws NoDirtException {
-        
+        try
+        {
+            layout.removeDirt(currentLocation);
+        }
+        catch(InvalidCoordinatesException e)
+        {
+            System.err.println("Simulation is in invalid state: " + e.getMessage());
+            throw new InvalidSimulationException("Simulation error, see error console for details.");
+        }
     }
     
     @Override
     public CarpetType checkSurfaceAtLocation() {
-        return CarpetType.BARE;  // ### To Implement
+        CarpetType result;
+        try
+        {
+            result = layout.getCarpet(currentLocation);
+        }
+        catch(InvalidCoordinatesException e)
+        {
+            System.err.println("Simulation is in invalid state: " + e.getMessage());
+            throw new InvalidSimulationException("Simulation error, see error console for details.");
+        }
+        return result;
     }
     
     @Override
     public boolean hasChargingStation() {
-        return true; // ### To Implement
+        boolean result;
+        try
+        {
+            result = layout.hasCharger(currentLocation);
+        }
+        catch(InvalidCoordinatesException e)
+        {
+            System.err.println("Simulation is in invalid state: " + e.getMessage());
+            throw new InvalidSimulationException("Simulation error, see error console for details.");
+        }
+        return result;
     }
     
     @Override
     public ObstacleType getObstacle(Direction direction) {
-        return ObstacleType.NONE;  // ### To Implement
+        ObstacleType result;
+        try
+        {
+            result = layout.getBorders(currentLocation).get(direction);
+        }
+        catch(InvalidCoordinatesException e)
+        {
+            System.err.println("Simulation is in invalid state: " + e.getMessage());
+            throw new InvalidSimulationException("Simulation error, see error console for details.");
+        }
+        return result;
     }
     
     @Override
     public CarpetType checkSurfaceAdjacent(Direction direction) throws InvalidMoveException {
-        return CarpetType.BARE;  // ### To Implement
+        CarpetType result;
+        ObstacleType obstacle = getObstacle(direction);
+        if (obstacle != ObstacleType.NONE)
+            throw new InvalidMoveException("Tried to look through obstacle: " + obstacle.toString());
+        Coords adjCoords = new Coords(currentLocation.x, currentLocation.y);
+        adjCoords.addOffset(directionOffset(direction));
+        try
+        {
+            result = layout.getCarpet(adjCoords);
+        }
+        catch(InvalidCoordinatesException e)
+        {
+            System.err.println("Simulation is in invalid state: " + e.getMessage());
+            throw new InvalidSimulationException("Simulation error, see error console for details.");
+        }
+        return result;
     }
     
     @Override
