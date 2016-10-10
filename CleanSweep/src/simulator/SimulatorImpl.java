@@ -139,5 +139,11 @@ public class SimulatorImpl implements Simulator {
         }
         return null;
     }
+    
+    @Override
+    public String toString() {
+        return layout.toString();
+        // ### Add state here
+    }
             
 }

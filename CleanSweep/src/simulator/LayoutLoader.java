@@ -44,6 +44,7 @@ class LayoutLoader {
                 ObstacleType northObstacle = ObstacleType.valueOf(segments[8]);
                 LayoutCell newCell = new LayoutCell(newCellCoords, newCellCarpet, newCellDirt, newCellCharger, eastObstacle, southObstacle, westObstacle, northObstacle);
                 result.put(newCellCoords, newCell);
+                line = br.readLine();
             }
         }
         catch(IOException e)

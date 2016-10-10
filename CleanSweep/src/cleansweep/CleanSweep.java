@@ -5,6 +5,10 @@
  */
 package cleansweep;
 
+import simulator.SimulatorFactory;
+import simulator.Simulator;
+import simulator.InvalidLayoutFileException;
+
 /**
  *
  * @author James Doyle
@@ -16,6 +20,14 @@ public class CleanSweep {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        try {
+            Simulator sim = SimulatorFactory.createSimulator("C:/temp/samplefloorplan.txt", 0, 0);
+            System.out.println(sim.toString());
+        }
+        catch (InvalidLayoutFileException e)
+        {
+            System.err.println(e.getMessage());
+        }
     }
     
 }

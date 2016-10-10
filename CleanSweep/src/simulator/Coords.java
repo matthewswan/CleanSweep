@@ -27,4 +27,18 @@ public class Coords {
     public String toString() {
         return String.format("(%d, %d)", x, y);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Coords))
+            return false;
+        if (obj == this)
+            return true;
+        return (x == ((Coords)obj).x && y == ((Coords)obj).y);
+    }
+    
+    @Override
+    public int hashCode() {
+        return x * 100000 + y;
+    }
 }
