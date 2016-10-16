@@ -23,7 +23,7 @@ public class SimulatorImpl implements Simulator {
     @Override
     public void move(Direction direction) throws InvalidMoveException {
         ObstacleType obstacle = getObstacle(direction);
-        if (obstacle != ObstacleType.NONE)
+        if (obstacle != ObstacleType.NONE && obstacle != ObstacleType.OPENDOOR)
             throw new InvalidMoveException("Tried to cross obstacle: " + obstacle.toString());
         currentLocation.addOffset(directionOffset(direction));
     }
@@ -105,7 +105,7 @@ public class SimulatorImpl implements Simulator {
     public CarpetType checkSurfaceAdjacent(Direction direction) throws InvalidMoveException {
         CarpetType result;
         ObstacleType obstacle = getObstacle(direction);
-        if (obstacle != ObstacleType.NONE)
+        if (obstacle != ObstacleType.NONE && obstacle != ObstacleType.OPENDOOR)
             throw new InvalidMoveException("Tried to look through obstacle: " + obstacle.toString());
         Coords adjCoords = new Coords(currentLocation.x, currentLocation.y);
         adjCoords.addOffset(directionOffset(direction));
@@ -138,6 +138,12 @@ public class SimulatorImpl implements Simulator {
                 return new Coords(0, 1);       
         }
         return null;
+    }
+    
+    @Override
+    public String toString() {
+        return "CleanSweep at location " + currentLocation.toString() + ".\n" + layout.toString();
+        // ### Add state here
     }
             
 }

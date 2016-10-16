@@ -8,6 +8,8 @@ package simulator;
 import java.util.HashMap;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.ArrayList;
+
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
@@ -67,4 +69,41 @@ public class LayoutImpl implements Layout {
         result = grid.get(cell).hasCharger();
         return result;
     }
+    
+    @Override
+    public String toString() {
+        ArrayList<StringBuilder> sbs = new ArrayList<>();
+        StringBuilder result = new StringBuilder();
+        int miny = Integer.MAX_VALUE;
+        int maxy = Integer.MIN_VALUE;
+        int minx = Integer.MAX_VALUE;
+        int maxx = Integer.MIN_VALUE;
+        for (Coords cell : grid.keySet()) {
+            miny = Integer.min(miny, cell.y);
+            maxy = Integer.max(maxy, cell.y);
+            minx = Integer.min(minx, cell.x);
+            maxx = Integer.max(maxx, cell.x);
+        }
+        for (int row = maxy; row >= miny; row--) {
+            StringBuilder[] lines = new StringBuilder[5];
+            for (int i = 0; i < 5; i++)
+                lines[i] = new StringBuilder();
+            for (int col = minx; col <= maxx; col++) {
+                if (!grid.containsKey(new Coords(col, row)))
+                    for (int i = 0; i < 5; i++)
+                        lines[i].append("     ");
+                else {
+                    String[] cellString = grid.get(new Coords(col, row)).toString().split("\n");
+                    for (int i = 0; i < 5; i++)
+                        lines[i].append(cellString[i]);
+                }
+            }
+            for (int i = 0; i < 5; i++)
+                sbs.add(lines[i]);
+        }
+        for (StringBuilder sb : sbs)
+            result.append(sb).append('\n');
+        return result.toString();
+    }
+            
 }

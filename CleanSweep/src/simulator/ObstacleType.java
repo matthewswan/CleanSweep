@@ -10,5 +10,5 @@ package simulator;
  * @author James Doyle
  */
 public enum ObstacleType {
-    NONE, WALL, CLOSEDDOOR, STAIRSUP, STAIRSDOWN
+    NONE, OPENDOOR, WALL, CLOSEDDOOR, STAIRSUP, STAIRSDOWN
 };
