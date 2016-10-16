@@ -142,7 +142,7 @@ public class SimulatorImpl implements Simulator {
     
     @Override
     public String toString() {
-        return layout.toString();
+        return "CleanSweep at location " + currentLocation.toString() + ".\n" + layout.toString();
         // ### Add state here
     }
             
