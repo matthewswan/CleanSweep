@@ -5,6 +5,10 @@
  */
 package simulator;
 
+import utility.Direction;
+import utility.ObstacleType;
+import utility.CarpetType;
+import utility.Coords;
 import java.util.Map;
 /**
  *

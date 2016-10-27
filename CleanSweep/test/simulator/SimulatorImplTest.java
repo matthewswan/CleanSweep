@@ -5,6 +5,10 @@
  */
 package simulator;
 
+import utility.InvalidMoveException;
+import utility.Direction;
+import utility.ObstacleType;
+import utility.CarpetType;
 import java.net.URISyntaxException;
 import java.net.URL;
 import org.junit.After;

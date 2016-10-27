@@ -5,18 +5,17 @@
  */
 package simulator;
 
+import utility.InvalidMoveException;
+import utility.Direction;
+import utility.ObstacleType;
+import utility.CarpetType;
+import utility.Sensor;
 import java.util.ArrayList;
 /**
  *
  * @author James Doyle
  */
-public interface Simulator {
+public interface Simulator extends Sensor {
     public void move(Direction direction) throws InvalidMoveException;
-    public boolean isDirty();
     public void removeDirt() throws NoDirtException;
-    public CarpetType checkSurfaceAtLocation();
-    public boolean hasChargingStation();
-    public ObstacleType getObstacle(Direction direction);
-    public CarpetType checkSurfaceAdjacent(Direction direction) throws InvalidMoveException;
-    public ArrayList<ArrayList<Direction>> findChargingStations();
 }

@@ -5,6 +5,9 @@
  */
 package simulator;
 
+import utility.ObstacleType;
+import utility.CarpetType;
+import utility.Coords;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.FileReader;
