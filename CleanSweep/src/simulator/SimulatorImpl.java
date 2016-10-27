@@ -5,6 +5,11 @@
  */
 package simulator;
 
+import utility.InvalidMoveException;
+import utility.Direction;
+import utility.ObstacleType;
+import utility.CarpetType;
+import utility.Coords;
 import java.util.ArrayList;
 
 /**

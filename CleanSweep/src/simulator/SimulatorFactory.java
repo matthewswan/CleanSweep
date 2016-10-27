@@ -5,6 +5,8 @@
  */
 package simulator;
 
+import utility.Coords;
+
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>

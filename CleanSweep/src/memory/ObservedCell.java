@@ -3,26 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simulator;
+package memory;
 
-import utility.Direction;
-import utility.ObstacleType;
-import utility.CarpetType;
 import utility.Coords;
+import utility.CarpetType;
+import utility.ObstacleType;
+import utility.Direction;
 import java.util.Map;
 import java.util.EnumMap;
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
  */
-public class LayoutCell {
+public class ObservedCell {
     private Coords cellCoords;
     private CarpetType carpet;
-    private int dirt;
+    private boolean dirt;
     private Map<Direction, ObstacleType> borders;
     private boolean charger;
     
-    LayoutCell(Coords coordsIn, CarpetType carpetIn, int dirtIn, boolean chargerIn, ObstacleType eastObstacle, ObstacleType southObstacle, ObstacleType westObstacle, ObstacleType northObstacle) {
+    ObservedCell(Coords coordsIn, CarpetType carpetIn, boolean dirtIn, boolean chargerIn, ObstacleType eastObstacle, ObstacleType southObstacle, ObstacleType westObstacle, ObstacleType northObstacle) {
         cellCoords = new Coords(coordsIn.x, coordsIn.y);
         carpet = carpetIn;
         dirt = dirtIn;
@@ -42,18 +42,20 @@ public class LayoutCell {
         return carpet;
     }
     
-    int getDirtValue() {
+    boolean hasDirt() {
         return dirt;
     }
     
-    void removeDirt() throws NoDirtException {
-        if(dirt < 1)
-            throw new NoDirtException("Tried to remove dirt from cell " + cellCoords.toString() + " but it had no dirt.");
-        dirt--;
+    void clearDirt() {
+        dirt = false;
     }
-    
+        
     ObstacleType getObstacle(Direction d) {
         return borders.get(d);
+    }
+    
+    void setObstacle(Direction d, ObstacleType o) {
+        borders.put(d, o);
     }
     
     boolean hasCharger() {
@@ -65,7 +67,7 @@ public class LayoutCell {
         StringBuilder sb = new StringBuilder();
         sb.append('o').append(obstacleNorthSouth(borders.get(Direction.NORTH))).append("o\n");
         sb.append(obstacleEastWest(borders.get(Direction.WEST),1)).append("     ").append(obstacleEastWest(borders.get(Direction.EAST),1)).append('\n');
-        sb.append(obstacleEastWest(borders.get(Direction.WEST),2)).append(' ').append(carpet.toString().charAt(0)).append(dirt).append(charger ? 'C' : ' ').append(' ').append(obstacleEastWest(borders.get(Direction.EAST),2)).append('\n');
+        sb.append(obstacleEastWest(borders.get(Direction.WEST),2)).append(' ').append(carpet.toString().charAt(0)).append(dirt ? 'D' : ' ').append(charger ? 'C' : ' ').append(' ').append(obstacleEastWest(borders.get(Direction.EAST),2)).append('\n');
         sb.append(obstacleEastWest(borders.get(Direction.WEST),3)).append("     ").append(obstacleEastWest(borders.get(Direction.EAST),3)).append('\n');
         sb.append('o').append(obstacleNorthSouth(borders.get(Direction.SOUTH))).append("o\n");
         return sb.toString();
