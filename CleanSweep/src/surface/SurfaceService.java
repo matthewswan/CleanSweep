@@ -8,7 +8,9 @@ import utility.CarpetType;
  * Created by Adam on 10/29/2016.
  */
 public class SurfaceService {
+    //Need singleton manager
     private volatile static SurfaceService SurfaceManager;
+    //Surface and Carpet classes to change between carpets
     private static SurfaceDetectable surfaceDetector;
     private static ApparatusChangeable apparatusChanger;
     //One instance of log service
