@@ -8,11 +8,11 @@ import java.util.Date;
 /**
  * Created by Adam on 10/9/2016.
  */
-public class CleanSweepLogWriter implements Loggable{
+public class CleanSweepLogWriterImpl implements Loggable{
     private Writer log;
 
     //Create file or Open existing file and never overwrite
-    protected CleanSweepLogWriter(){
+    protected CleanSweepLogWriterImpl(){
         Calendar date = Calendar.getInstance();
         int year = date.get(Calendar.YEAR)+1;
         int month = date.get(Calendar.YEAR);

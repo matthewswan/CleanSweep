@@ -7,11 +7,11 @@ import java.util.Date;
 /**
  * Created by Adam on 10/10/2016.
  */
-public class CleanSweepLogReader implements Readable{
+public class CleanSweepLogReaderImpl implements Readable{
     private BufferedReader log;
 
     //Open specified file, date will be the differentiator
-    protected CleanSweepLogReader(String dateInput){
+    protected CleanSweepLogReaderImpl(String dateInput){
         String dateOfLog;
 
         if(dateInput==null||dateInput.equals("")) {
@@ -33,23 +33,27 @@ public class CleanSweepLogReader implements Readable{
     }
 
     //Read whole file
-    public void readWholeFile(){
+    public String readWholeFile(){
         String line;
+        String logLines="";
 
         try {
             while ((line = log.readLine()) != null) {
                 System.out.println(line);
+                logLines+=line;
             }
         }
         catch(IOException ioe){
             System.out.println("Issue Reading Log Object/File");
             ioe.printStackTrace();
         }
+        return logLines;
     }
 
     //Read file from specified line
-    public void readFromSpecifiedLine(int lineNumber){
+    public String readFromSpecifiedLine(int lineNumber){
         String line;
+        String logLines="";
         int currentLineNumber = 0;
 
         try {
@@ -57,6 +61,7 @@ public class CleanSweepLogReader implements Readable{
                 currentLineNumber++;
                 if(currentLineNumber>=lineNumber){
                     System.out.println(line);
+                    logLines+=line;
                 }
             }
             if(currentLineNumber<lineNumber){
@@ -67,7 +72,7 @@ public class CleanSweepLogReader implements Readable{
             System.out.println("Issue Reading Log Object/File");
             ioe.printStackTrace();
         }
-
+        return logLines;
     }
 
     //Close file being read

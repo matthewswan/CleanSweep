@@ -8,16 +8,17 @@ import java.util.Calendar;
 public class LogTest {
     public static void main(String[] args) throws Exception{
         //Test writer
-        LogService.getInstance().writeLineToLog("Test Line");
-        LogService.getInstance().writeLineToLog("Second Test Line");
-        LogService.getInstance().writeLineToLog("Third Test Line");
-        LogService.getInstance().closeLog();
+        LogService logService = LogService.getInstance();
+        logService.writeLineToLog("Test Line");
+        logService.writeLineToLog("Second Test Line");
+        logService.writeLineToLog("Third Test Line");
+        logService.closeLog();
 
         //Test writer after closing
-        LogService.getInstance().writeLineToLog("First Test Line After Closing");
-        LogService.getInstance().writeLineToLog("Second Test Line After Closing");
-        LogService.getInstance().writeLineToLog("Third Test Line After Closing");
-        LogService.getInstance().closeLog();
+        logService.writeLineToLog("First Test Line After Closing");
+        logService.writeLineToLog("Second Test Line After Closing");
+        logService.writeLineToLog("Third Test Line After Closing");
+        logService.closeLog();
 
         //Todays date in formatted string
         Calendar date = Calendar.getInstance();
@@ -27,16 +28,16 @@ public class LogTest {
 
         String dateOfLog = year+""+month+""+day;
         //Test Reader
-        LogService.getInstance().readWholeLog("");
-        LogService.getInstance().readWholeLog(dateOfLog);
-        LogService.getInstance().readLogFromSpecifiedLine("",3);
-        LogService.getInstance().readLogFromSpecifiedLine(dateOfLog,5);
+        logService.readWholeLog("");
+        logService.readWholeLog(dateOfLog);
+        logService.readLogFromSpecifiedLine("",3);
+        logService.readLogFromSpecifiedLine(dateOfLog,5);
         //Should say line does not exist
-        LogService.getInstance().readLogFromSpecifiedLine("",28);
+        logService.readLogFromSpecifiedLine("",28);
 
         //Checks logic to make sure file will be closed before it is read when it was being written too
-        LogService.getInstance().writeLineToLog("Test to see if it will close file before reading it");
-        LogService.getInstance().readWholeLog("");
+        logService.writeLineToLog("Test to see if it will close file before reading it");
+        logService.readWholeLog("");
 
     }
 }
