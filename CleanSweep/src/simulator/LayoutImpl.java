@@ -95,7 +95,7 @@ public class LayoutImpl implements Layout {
             for (int col = minx; col <= maxx; col++) {
                 if (!grid.containsKey(new Coords(col, row)))
                     for (int i = 0; i < 5; i++)
-                        lines[i].append("     ");
+                        lines[i].append("       ");
                 else {
                     String[] cellString = grid.get(new Coords(col, row)).toString().split("\n");
                     for (int i = 0; i < 5; i++)
