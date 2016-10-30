@@ -5,12 +5,12 @@
  */
 package memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import utility.Coords;
 import utility.Direction;
 import utility.Sensor;
 import utility.NullSensorException;
-import utility.ObstacleType;
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
@@ -36,24 +36,48 @@ public class MemoryImpl implements Memory {
             if (oldCell.hasCharger() != sensor.hasChargingStation() || oldCell.getCarpet() != sensor.checkSurfaceAtLocation())
                 throw new UnexpectedChangeException("Either the carpet type changed or presence of a charging station changed for existing cell at " + coordsIn.toString() + ".");
             for (Direction d : Direction.values()) {
-                boolean validChange = false;
-                if (oldCell.getObstacle(d) == sensor.getObstacle(d))
-                    validChange = true;
-                if (oldCell.getObstacle(d) == ObstacleType.OPENDOOR && sensor.getObstacle(d) == ObstacleType.CLOSEDDOOR) {
-                    validChange = true;
-                    oldCell.setObstacle(d, ObstacleType.CLOSEDDOOR);
-                }
-                if (oldCell.getObstacle(d) == ObstacleType.CLOSEDDOOR && sensor.getObstacle(d) == ObstacleType.OPENDOOR) {
-                    validChange = true;
-                    oldCell.setObstacle(d, ObstacleType.OPENDOOR);
-                }
-                if (!validChange)
-                    throw new UnexpectedChangeException("One of the obstacles changed and it wasn't a toggle of a door's open status in existing cell at " + coordsIn.toString() + ".");
+                oldCell.setObstacle(d, sensor.getObstacle(d));
             }
             if (oldCell.hasDirt() == false && sensor.isDirty() == true)    
                 throw new UnexpectedChangeException("Somehow more dirt got added to the carpet at cell " + coordsIn.toString() + ".");
             if (oldCell.hasDirt() == true && sensor.isDirty() == false)
                 oldCell.clearDirt();
         }
+    }
+    
+    @Override
+    public String toString() {
+        ArrayList<StringBuilder> sbs = new ArrayList<>();
+        StringBuilder result = new StringBuilder();
+        int miny = Integer.MAX_VALUE;
+        int maxy = Integer.MIN_VALUE;
+        int minx = Integer.MAX_VALUE;
+        int maxx = Integer.MIN_VALUE;
+        for (Coords cell : grid.keySet()) {
+            miny = Integer.min(miny, cell.y);
+            maxy = Integer.max(maxy, cell.y);
+            minx = Integer.min(minx, cell.x);
+            maxx = Integer.max(maxx, cell.x);
+        }
+        for (int row = maxy; row >= miny; row--) {
+            StringBuilder[] lines = new StringBuilder[5];
+            for (int i = 0; i < 5; i++)
+                lines[i] = new StringBuilder();
+            for (int col = minx; col <= maxx; col++) {
+                if (!grid.containsKey(new Coords(col, row)))
+                    for (int i = 0; i < 5; i++)
+                        lines[i].append("       ");
+                else {
+                    String[] cellString = grid.get(new Coords(col, row)).toString().split("\n");
+                    for (int i = 0; i < 5; i++)
+                        lines[i].append(cellString[i]);
+                }
+            }
+            for (int i = 0; i < 5; i++)
+                sbs.add(lines[i]);
+        }
+        for (StringBuilder sb : sbs)
+            result.append(sb).append('\n');
+        return result.toString();
     }
 }

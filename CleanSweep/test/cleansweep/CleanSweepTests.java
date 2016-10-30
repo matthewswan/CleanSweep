@@ -1,5 +1,6 @@
 package cleansweep;
 
+import cleansweep.CleanSweep;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;
