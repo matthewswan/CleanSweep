@@ -54,7 +54,10 @@ public class ObservedCell {
         return borders.get(d);
     }
     
-    void setObstacle(Direction d, ObstacleType o) {
+    void setObstacle(Direction d, ObstacleType o) throws UnexpectedChangeException {
+        if(getObstacle(d) != o)
+            if (!((getObstacle(d) == ObstacleType.OPENDOOR && o == ObstacleType.CLOSEDDOOR) || (getObstacle(d) == ObstacleType.CLOSEDDOOR && o == ObstacleType.OPENDOOR)))
+                throw new UnexpectedChangeException("One of the obstacles changed and it wasn't a toggle of a door's open status in existing cell at " + getCoords().toString() + ".");
         borders.put(d, o);
     }
     
