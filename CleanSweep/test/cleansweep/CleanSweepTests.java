@@ -1,54 +1,60 @@
 package cleansweep;
 
-import cleansweep.CleanSweep;
+import cleansweep.CleanSweepImpl;
 import org.junit.Test;
-
 import java.awt.geom.Point2D;
-
 import static org.junit.Assert.assertEquals;
+import utility.Coords;
 
 /**
  * Created by alexluka
  */
 public class CleanSweepTests {
 
-    CleanSweep roomba = new CleanSweep();
+    CleanSweepImpl roomba = new CleanSweepImpl();
 
     @Test
     public void testRememberStartPosition() {
-        Point2D.Double testCoords = new Point2D.Double(0,0);
-        Point2D.Double testCoords2 = new Point2D.Double(0,1);
-        Point2D.Double startCoords = roomba.getStartCoords();
-        assertEquals(testCoords,startCoords);
+        Coords testLocation = new Coords(0,0);
+        Coords initialLocation = new Coords(1,3);
+        initialLocation = roomba.getInitialLocation();
+        assertEquals(testLocation,initialLocation);
     }
 
     @Test
+    public void testRememberMaxDirtCapacity() {
+        CleanSweepImpl cleanSweepImpl = new CleanSweepImpl();
+        int testInt = 0;
+        testInt = cleanSweepImpl.getMaxCapacity();
+        assertEquals(50, testInt);
+    }
+
+    @Test
+
     public void testMoveUp() {
-        Point2D.Double testCoords = new Point2D.Double(0,0);
-        Point2D.Double testCoords2 = new Point2D.Double(0,1);
-        assertEquals(testCoords2,roomba.moveUp(testCoords));
+        Coords testCoords = new Coords(0,0);
+        Coords testCoords2 = new Coords(0,1);
+        assertEquals(testCoords2, roomba.moveUp(testCoords));
     }
 
     @Test
     public void testMoveDown() {
-        Point2D.Double testCoords = new Point2D.Double(0,0);
-        Point2D.Double testCoords2 = new Point2D.Double(0,-1);
-        assertEquals(testCoords2,roomba.moveDown(testCoords));
+        Coords testCoords = new Coords(0,0);
+        Coords testCoords2 = new Coords(0,-1);
+        assertEquals(testCoords2, roomba.moveDown(testCoords));
     }
 
     @Test
     public void testMoveRight() {
-        Point2D.Double testCoords = new Point2D.Double(0,0);
-        Point2D.Double testCoords2 = new Point2D.Double(1,0);
-        assertEquals(testCoords2,roomba.moveRight(testCoords));
+        Coords testCoords = new Coords(0,0);
+        Coords testCoords2 = new Coords(1,0);
+        assertEquals(testCoords2, roomba.moveRight(testCoords));
     }
 
     @Test
     public void testMoveLeft() {
-        Point2D.Double testCoords = new Point2D.Double(0,0);
-        Point2D.Double testCoords2 = new Point2D.Double(-1,0);
-        assertEquals(testCoords2,roomba.moveLeft(testCoords));
+        Coords testCoords = new Coords(0,0);
+        Coords testCoords2 = new Coords(-1,0);
+        assertEquals(testCoords2, roomba.moveLeft(testCoords));
     }
-
-
 }
