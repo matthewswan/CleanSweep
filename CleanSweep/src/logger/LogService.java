@@ -27,7 +27,7 @@ public class LogService {
     //Create a log writer
     private LogService()
     {
-        logWriter = new CleanSweepLogWriter();
+        logWriter = new CleanSweepLogWriterImpl();
 
         Calendar date = Calendar.getInstance();
         int year = date.get(Calendar.YEAR)+1;
@@ -43,56 +43,68 @@ public class LogService {
             logWriter.writeToLog(message);
         }
         else{
-            logWriter = new CleanSweepLogWriter();
+            logWriter = new CleanSweepLogWriterImpl();
             logWriter.writeToLog(message);
         }
     }
 
     //Close file and make sure log writer is set to null so it knows not to write to a closed file
     public void closeLog(){
-        logWriter.closeLog();
-        logWriter = null;
+        if(logWriter!=null){
+            logWriter.closeLog();
+            logWriter = null;
+        }
     }
 
     //Read from file
-    private void readFile(String dateOfLog, int lineNumber){
+    private String readFile(String dateOfLog, int lineNumber){
+        String logLines="";
         if(lineNumber==0){
-            CleanSweepLogReader logReader = new CleanSweepLogReader(dateOfLog);
-            logReader.readWholeFile();
+            CleanSweepLogReaderImpl logReader = new CleanSweepLogReaderImpl(dateOfLog);
+            logLines += logReader.readWholeFile();
             logReader.closeLog();
         }else{
-            CleanSweepLogReader logReader = new CleanSweepLogReader(dateOfLog);
-            logReader.readFromSpecifiedLine(lineNumber);
+            CleanSweepLogReaderImpl logReader = new CleanSweepLogReaderImpl(dateOfLog);
+            logLines += logReader.readFromSpecifiedLine(lineNumber);
             logReader.closeLog();
         }
+        return logLines;
     }
 
     //Read the whole file making sure that if the writer has the file that needs to be read from, that it is closed first
-    public void readWholeLog(String dateOfLog){
+    public String readWholeLog(String dateOfLog){
+        String logLines="";
+
         if(dateOfLog.equals(todaysDate)||dateOfLog.equals("")) {
             if(logWriter==null){
-                readFile(dateOfLog,0);
+                logLines+=readFile(dateOfLog,0);
             }else{
                 closeLog();
-                readFile(dateOfLog,0);
+                logLines+=readFile(dateOfLog,0);
             }
         }else{
-            readFile(dateOfLog,0);
+            logLines+=readFile(dateOfLog,0);
         }
+        return logLines;
     }
 
+
     //Read the file from a specified line making sure that if the writer has the file that needs to be read from, that it is closed first
-    public void readLogFromSpecifiedLine(String dateOfLog, int lineNumber){
+    public String readLogFromSpecifiedLine(String dateOfLog, int lineNumber){
+        String logLines="";
+
         if(dateOfLog.equals(todaysDate)||dateOfLog.equals("")) {
             if(logWriter==null){
-                readFile(dateOfLog,lineNumber);
+                logLines += readFile(dateOfLog,lineNumber);
             }else{
                 closeLog();
-                readFile(dateOfLog,lineNumber);
+                logLines += readFile(dateOfLog,lineNumber);
             }
         }else{
             readFile(dateOfLog,lineNumber);
         }
+
+        return logLines;
     }
 
 }
