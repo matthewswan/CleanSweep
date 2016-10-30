@@ -13,8 +13,10 @@ import static utility.ApparatusType.HIGHPILEAPPARATUS;
 public class ApparatusChangerImpl implements ApparatusChangeable {
     ApparatusType apparatusType;
 
+    //Default constructor can be called and paired with setApparatusType to initialize
     public ApparatusChangerImpl(){}
 
+    //Constructor taking in carpettype to find apparatustype that is appropriate
     public ApparatusChangerImpl(CarpetType carpetType){
         switch(carpetType) {
             case LOWPILE:
@@ -29,6 +31,7 @@ public class ApparatusChangerImpl implements ApparatusChangeable {
         }
     }
 
+    //Apparatus set property
     public void setApparatusType(CarpetType carpetType){
         switch(carpetType) {
             case LOWPILE:
@@ -43,22 +46,24 @@ public class ApparatusChangerImpl implements ApparatusChangeable {
         }
     }
 
+    //Apparatus get property
     public ApparatusType getApparatusType(){
         return apparatusType;
     }
 
+    //Returns string representation of apparatus type
     public String toString(){
         String apparatusTypeString;
 
         switch(apparatusType) {
             case LOWPILEAPPARATUS:
-                apparatusTypeString="Bare Floor Apparatus";
-                break;
-            case HIGHPILEAPPARATUS:
                 apparatusTypeString="Low Pile Carpet Floor Apparatus";
                 break;
-            case BAREAPPARATUS:
+            case HIGHPILEAPPARATUS:
                 apparatusTypeString="High Pile Carpet Floor Apparatus";
+                break;
+            case BAREAPPARATUS:
+                apparatusTypeString="Bare Floor Apparatus";
                 break;
             default:
                 apparatusTypeString="Issue retrieving apparatus type as a string";

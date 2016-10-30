@@ -23,35 +23,41 @@ public class SurfaceService {
                 SurfaceManager = new SurfaceService();
             }
         }
-
+        //Only ever need one instance
         return SurfaceManager;
     }
 
     //Create a log writer
     private SurfaceService()
     {
+        //Initialize both a surface detector and apparatus changer objects
         surfaceDetector=new SurfaceDetectorImpl(CarpetType.BARE);
         apparatusChanger=new ApparatusChangerImpl(CarpetType.BARE);
     }
 
     public void changeFloor(CarpetType carpetType){
+        //Set floor and apparatus
         surfaceDetector.setCarpetType(carpetType);
         apparatusChanger.setApparatusType(carpetType);
     }
 
     public CarpetType getCarpetType(){
+        //Return carpet type in enum
         return surfaceDetector.getCarpetType();
     }
 
     public ApparatusType getApparatusType(){
+        //Return apparatus type in enum
         return apparatusChanger.getApparatusType();
     }
 
-    public String floorTypeString(){
+    public String carpetTypeString(){
+        //Return string representation of current surface
         return surfaceDetector.toString();
     }
 
     public String apparatusTypeString(){
+        //Return string representation of current apparatus
         return apparatusChanger.toString();
     }
 }
