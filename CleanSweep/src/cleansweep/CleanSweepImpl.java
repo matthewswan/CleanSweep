@@ -14,6 +14,7 @@ import simulator.InvalidLayoutFileException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+import cleansweep.InvalidCoordinatesException;
 import utility.Coords;
 /**
  *
@@ -22,10 +23,14 @@ import utility.Coords;
 public class CleanSweepImpl {
     private final int MAX_DIRT_CAPACITY;
     private Coords initialLocation;
+    private int hasDirtCount;
+    private int dirtCount;
     
     CleanSweepImpl() {
         initialLocation = new Coords(0,0);
         MAX_DIRT_CAPACITY = 50;
+        hasDirtCount = 0;
+        dirtCount = 0;
     }
     
     public static ArrayList<Point2D.Double> currentPath;
@@ -39,40 +44,55 @@ public class CleanSweepImpl {
     public int getMaxCapacity() {
         return MAX_DIRT_CAPACITY;
     }
+    
+    public int getDirtCount() {
+        return dirtCount;
+    }
 
-    //Move in 1 of 4 directions
-    //public static Point2D.Double moveUp(Point2D.Double coords) {
-      //  Point2D.Double currentCoords;
-        //currentCoords = coords;
-        //currentCoords.y = currentCoords.y + 1;
-        //return currentCoords;
-    //}
-    public static Coords moveUp(Coords coords) {
+    public static Coords moveUp(Coords coords) throws InvalidCoordinatesException {
         Coords currentCoords;
         currentCoords = coords;
         currentCoords.y = currentCoords.y + 1;
         return currentCoords;
     }
 
-    public static Coords moveDown(Coords coords) {
+    public static Coords moveDown(Coords coords) throws InvalidCoordinatesException {
         Coords currentCoords;
         currentCoords = coords;
         currentCoords.y = currentCoords.y - 1;
         return currentCoords;
     }
 
-    public static Coords moveRight(Coords coords) {
+    public static Coords moveRight(Coords coords) throws InvalidCoordinatesException {
         Coords currentCoords;
         currentCoords = coords;
         currentCoords.x = currentCoords.x + 1;
         return currentCoords;
     }
 
-    public static Coords moveLeft(Coords coords) {
+    public static Coords moveLeft(Coords coords) throws InvalidCoordinatesException {
         Coords currentCoords;
         currentCoords = coords;
         currentCoords.x = currentCoords.x - 1;
         return currentCoords;
+    }
+    
+    public boolean hasDirt(Cell cell) throws InvalidCoordinatesException {
+        boolean result;
+        if (hasDirtCount == 0) {
+          hasDirtCount++;
+          return true;
+        }
+        if (cell.getDirtValue() > 0)
+            result = true;
+        else
+            result = false;
+        return result;
+    }
+    
+    public void removeDirt(Cell cell) throws NoDirtException, InvalidCoordinatesException {
+        cell.removeDirt();
+        dirtCount++;
     }
 
 
