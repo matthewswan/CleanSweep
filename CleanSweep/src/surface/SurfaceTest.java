@@ -10,19 +10,19 @@ public class SurfaceTest {
         SurfaceService surfaceService=SurfaceService.getInstance();
 
         surfaceService.changeFloor(CarpetType.BARE);
-        System.out.println("Changing to Bare Floor");
-        System.out.println("Floor is: " + surfaceService.carpetTypeString());
-        System.out.println("Using "+surfaceService.apparatusTypeString());
+        System.out.println("Changing to a Bare Floor");
+        System.out.println("Floor is: \r\n" + surfaceService.carpetTypeString());
+        System.out.println("Using: \r\n"+surfaceService.apparatusTypeString());
 
         surfaceService.changeFloor(CarpetType.LOWPILE);
-        System.out.println("Changing to Bare Floor");
-        System.out.println("Floor is: " + surfaceService.carpetTypeString());
-        System.out.println("Using "+surfaceService.apparatusTypeString());
+        System.out.println("Changing to a Low Pile Carpet Floor");
+        System.out.println("Floor is: \r\n" + surfaceService.carpetTypeString());
+        System.out.println("Using: \r\n"+surfaceService.apparatusTypeString());
 
         surfaceService.changeFloor(CarpetType.HIGHPILE);
-        System.out.println("Changing to Bare Floor");
-        System.out.println("Floor is: " + surfaceService.carpetTypeString());
-        System.out.println("Using "+surfaceService.apparatusTypeString());
+        System.out.println("Changing to a High Pile Carpet Floor");
+        System.out.println("Floor is: \r\n" + surfaceService.carpetTypeString());
+        System.out.println("Using: \r\n"+surfaceService.apparatusTypeString());
 
     }
 }
