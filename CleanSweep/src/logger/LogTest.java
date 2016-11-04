@@ -22,11 +22,17 @@ public class LogTest {
 
         //Todays date in formatted string
         Calendar date = Calendar.getInstance();
-        int year = date.get(Calendar.YEAR)+1;
-        int month = date.get(Calendar.YEAR);
-        int day = date.get(Calendar.YEAR);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH)+1;
+        int day = date.get(Calendar.DAY_OF_MONTH);
 
-        String dateOfLog = year+""+month+""+day;
+        String dateOfLog="";
+        if(day<10) {
+            dateOfLog += year + "" + month + "0" + day;
+        }
+        else {
+            dateOfLog += year + "" + month + "" + day;
+        }
         //Test Reader
         logService.readWholeLog("");
         logService.readWholeLog(dateOfLog);

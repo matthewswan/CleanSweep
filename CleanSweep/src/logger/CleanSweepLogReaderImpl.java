@@ -16,10 +16,18 @@ public class CleanSweepLogReaderImpl implements Readable{
 
         if(dateInput==null||dateInput.equals("")) {
             Calendar date = Calendar.getInstance();
-            int year = date.get(Calendar.YEAR) + 1;
-            int month = date.get(Calendar.YEAR);
-            int day = date.get(Calendar.YEAR);
-            dateOfLog = year + "" + month + "" + day;
+            int year = date.get(Calendar.YEAR);
+            int month = date.get(Calendar.MONTH)+1;
+            int day = date.get(Calendar.DAY_OF_MONTH);
+
+            dateOfLog="";
+            if(day<10) {
+                dateOfLog += year + "" + month + "0" + day;
+            }
+            else
+            {
+                dateOfLog += year + "" + month + "" + day;
+            }
         }else{
             dateOfLog=dateInput;
         }

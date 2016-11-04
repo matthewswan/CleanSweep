@@ -30,11 +30,19 @@ public class LogService {
         logWriter = new CleanSweepLogWriterImpl();
 
         Calendar date = Calendar.getInstance();
-        int year = date.get(Calendar.YEAR)+1;
-        int month = date.get(Calendar.YEAR);
-        int day = date.get(Calendar.YEAR);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH)+1;
+        int day = date.get(Calendar.DAY_OF_MONTH);
 
-        todaysDate = year+""+month+""+day;
+        todaysDate="";
+        if(day<10) {
+            todaysDate += year + "" + month + "0" + day;
+        }
+        else
+        {
+            todaysDate += year + "" + month + "" + day;
+        }
+
     }
 
     //Write to log writer unless it is null in which case open file and write to it
