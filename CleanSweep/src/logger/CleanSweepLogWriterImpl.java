@@ -35,7 +35,7 @@ public class CleanSweepLogWriterImpl implements Loggable{
         Date date = new Date();
         String logDate = date.toString();
         try {
-            log.write(logDate + ": " + message +"\n");
+            log.write(logDate + ": " + message +"\r\n");
             log.flush();
         }
         catch(IOException ioe){
