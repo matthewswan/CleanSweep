@@ -11,6 +11,7 @@ import utility.Coords;
 import utility.Direction;
 import utility.Sensor;
 import utility.NullSensorException;
+import utility.InvalidCoordinatesException;
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
@@ -43,6 +44,20 @@ public class MemoryImpl implements Memory {
             if (oldCell.hasDirt() == true && sensor.isDirty() == false)
                 oldCell.clearDirt();
         }
+    }
+    
+    @Override
+    public boolean hasDirt(Coords coordsIn) throws InvalidCoordinatesException {
+        if (!grid.containsKey(coordsIn)) 
+            throw new InvalidCoordinatesException("Location " + coordsIn.toString() + " has not been explored.");
+        return grid.get(coordsIn).hasDirt();
+    }
+    
+    @Override
+    public boolean hasCharger(Coords coordsIn) throws InvalidCoordinatesException {
+        if (!grid.containsKey(coordsIn)) 
+            throw new InvalidCoordinatesException("Location " + coordsIn.toString() + " has not been explored.");
+        return grid.get(coordsIn).hasCharger();
     }
     
     @Override

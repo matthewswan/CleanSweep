@@ -5,6 +5,7 @@
  */
 package simulator;
 
+import utility.InvalidCoordinatesException;
 import utility.InvalidMoveException;
 import utility.Direction;
 import utility.ObstacleType;

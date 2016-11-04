@@ -34,23 +34,23 @@ public class ObservedCell {
         borders.put(Direction.NORTH, northObstacle);
     }
     
-    Coords getCoords() {
+    public Coords getCoords() {
         return new Coords(cellCoords.x, cellCoords.y);
     }
     
-    CarpetType getCarpet() {
+    public CarpetType getCarpet() {
         return carpet;
     }
     
-    boolean hasDirt() {
+    public boolean hasDirt() {
         return dirt;
     }
     
-    void clearDirt() {
+    public void clearDirt() {
         dirt = false;
     }
         
-    ObstacleType getObstacle(Direction d) {
+    public ObstacleType getObstacle(Direction d) {
         return borders.get(d);
     }
     
@@ -61,7 +61,7 @@ public class ObservedCell {
         borders.put(d, o);
     }
     
-    boolean hasCharger() {
+    public boolean hasCharger() {
         return charger;
     }
     

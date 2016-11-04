@@ -6,10 +6,13 @@
 package memory;
 
 import utility.Coords;
+import utility.InvalidCoordinatesException;
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
  */
 public interface Memory {
     public void observeCell(Coords coordsIn) throws UnexpectedChangeException;
+    public boolean hasDirt(Coords coordsIn) throws InvalidCoordinatesException;
+    public boolean hasCharger(Coords coordsIn) throws InvalidCoordinatesException;
 }
