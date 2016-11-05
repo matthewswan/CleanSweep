@@ -7,6 +7,9 @@ package memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import navigation.Navigation;
+import navigation.NavigationImpl;
+import navigation.DuplicateCellException;
 import utility.Coords;
 import utility.Direction;
 import utility.Sensor;
@@ -19,12 +22,14 @@ import utility.InvalidCoordinatesException;
 public class MemoryImpl implements Memory {
     Sensor sensor;
     private HashMap<Coords, ObservedCell> grid;
+    Navigation navigation;
     
     MemoryImpl(Sensor sensorIn) throws NullSensorException {
         if (sensorIn == null)
             throw new NullSensorException("Cannot link CleanSweep memory to a null sensor.");
         sensor = sensorIn;
         grid = new HashMap<>();
+        navigation = new NavigationImpl();
     }
     
     @Override
@@ -33,6 +38,12 @@ public class MemoryImpl implements Memory {
         if (oldCell == null) {
             ObservedCell newCell = new ObservedCell(coordsIn, sensor.checkSurfaceAtLocation(), sensor.isDirty(), sensor.hasChargingStation(), sensor.getObstacle(Direction.EAST), sensor.getObstacle(Direction.SOUTH), sensor.getObstacle(Direction.WEST), sensor.getObstacle(Direction.NORTH));
             grid.put(coordsIn, newCell);
+            try {
+                navigation.addCell(newCell);
+            }
+            catch (DuplicateCellException e) {
+                throw new RuntimeException("Somehow the memory and navigation grids got out of sync; tried to insert a duplicate cell to navigation grid.");
+            }
         } else {
             if (oldCell.hasCharger() != sensor.hasChargingStation() || oldCell.getCarpet() != sensor.checkSurfaceAtLocation())
                 throw new UnexpectedChangeException("Either the carpet type changed or presence of a charging station changed for existing cell at " + coordsIn.toString() + ".");

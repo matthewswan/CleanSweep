@@ -5,11 +5,11 @@
  */
 package navigation;
 
-import java.util.Map;
-import utility.Coords;
+
 import utility.Direction;
 import utility.ObstacleType;
-import utility.CarpetType;
+import utility.Path;
+import utility.Coords;
 import memory.ObservedCell;
 
 /**
@@ -19,10 +19,14 @@ import memory.ObservedCell;
 public class NavigationCell {
     private ObservedCell cell;
     private boolean marked;
+    private double distance;
+    private Path path;
     
     NavigationCell(ObservedCell cellIn) {
         cell = cellIn;
         marked = false;
+        distance = Double.MAX_VALUE;
+        path = new Path();
     }
     
     int getCost() {
@@ -55,5 +59,25 @@ public class NavigationCell {
     
     boolean hasDirt() {
         return cell.hasDirt();
+    }
+    
+    double getDistance() {
+        return distance;
+    }
+    
+    void setDistance(double distanceIn) {
+        distance = distanceIn;
+    }
+    
+    Path getPath() {
+        return new Path(path);
+    }
+    
+    void setPath(Path pathIn) {
+        path = new Path(pathIn);
+    }
+    
+    Coords getCoords() {
+        return cell.getCoords();
     }
 }

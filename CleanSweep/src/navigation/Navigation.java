@@ -5,15 +5,19 @@
  */
 package navigation;
 
+import memory.ObservedCell;
 import utility.Coords;
 import utility.Path;
+import utility.InvalidCoordinatesException;
+
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
  */
 public interface Navigation {
-    public Path findPath(Coords loc1, Coords loc2) throws NoPathException;
-    public Path findNearestCharger(Coords location) throws NoPathException;
-    public Path findNearestDirt(Coords location) throws NoPathException;
-    public Path findNearestUnexplored(Coords location) throws NoPathException;
+    public void addCell(ObservedCell cellIn) throws DuplicateCellException;
+    public Path findPath(Coords locFrom, Coords locTo) throws NoPathException, InvalidCoordinatesException;
+    public Path findNearestCharger(Coords location) throws NoPathException, InvalidCoordinatesException;
+    public Path findNearestDirt(Coords location) throws NoPathException, InvalidCoordinatesException;
+    public Path findNearestUnexplored(Coords location) throws NoPathException, InvalidCoordinatesException;
 }
