@@ -14,13 +14,13 @@ import java.util.NoSuchElementException;
  */
 public class Path {
     Queue<Direction> sequence;
-    Queue<Integer> costs;
-    int remainingCost;
+    Queue<Double> costs;
+    double remainingCost;
     
     public Path() {
         sequence = new LinkedList<>();
         costs = new LinkedList<>();
-        remainingCost = 0;
+        remainingCost = 0.0;
     }
     
     public Path(Path pathIn) {
@@ -29,13 +29,13 @@ public class Path {
         remainingCost = pathIn.remainingCost();
     }
     
-    public void add(Direction d, int costIn) {
+    public void add(Direction d, double costIn) {
         sequence.add(d);
         costs.add(costIn);
         remainingCost += costIn;
     }
     
-    public int nextCost() {
+    public double nextCost() {
         return costs.peek();
     }
     
@@ -53,7 +53,7 @@ public class Path {
         }
     }
     
-    public int remainingCost() {
+    public double remainingCost() {
         return remainingCost;
     }
 }

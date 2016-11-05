@@ -22,7 +22,7 @@ public class ObservedCell {
     private Map<Direction, ObstacleType> borders;
     private boolean charger;
     
-    ObservedCell(Coords coordsIn, CarpetType carpetIn, boolean dirtIn, boolean chargerIn, ObstacleType eastObstacle, ObstacleType southObstacle, ObstacleType westObstacle, ObstacleType northObstacle) {
+    public ObservedCell(Coords coordsIn, CarpetType carpetIn, boolean dirtIn, boolean chargerIn, ObstacleType eastObstacle, ObstacleType southObstacle, ObstacleType westObstacle, ObstacleType northObstacle) {
         cellCoords = new Coords(coordsIn.x, coordsIn.y);
         carpet = carpetIn;
         dirt = dirtIn;
