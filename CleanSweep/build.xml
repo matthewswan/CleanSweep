@@ -1,3 +1,4 @@
+
 <project name="CleanSweep" default="testAll" basedir=".">
   <description>
     Ant build file
@@ -30,7 +31,7 @@
     </javac>
   </target>
 
-  <target name="testCompile" depends="compile"
+  <target name="compileTests" depends="compile"
           description="compile the source " >
     <!-- Compile the java code from ${src} into ${bin} -->
     <javac includeantruntime="false"
@@ -46,8 +47,14 @@
 
     </javac>
   </target>
+
+  <target name="copyFloorPlan" depends="compileTests">
+    <echo> Start Copying </echo>
+    <copy file="${src}/simulator/samplefloorplan.txt" todir="${bin}/simulator/"/>
+    <echo> End Copying </echo>
+  </target>
   
-  <target name="testAll" depends="testCompile"> 
+  <target name="testAll" depends="copyFloorPlan"> 
     <!-- Run junit tests -->
     <junit printsummary="yes" fork="yes">
       <classpath location="${bin}"/>
