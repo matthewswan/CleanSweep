@@ -8,6 +8,7 @@ package memory;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import navigation.NavigationImpl;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,7 +47,7 @@ public class MemoryImplTest {
         URL fileUrl = SimulatorFactory.class.getResource("samplefloorplan.txt");
         String path = fileUrl.toURI().getPath();
         sensor = SimulatorFactory.createSimulator(path, 0, 0);
-        memory = new MemoryImpl(sensor);
+        memory = new MemoryImpl(sensor, new NavigationImpl());
     }
     
     @After

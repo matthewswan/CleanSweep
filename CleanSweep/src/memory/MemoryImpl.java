@@ -8,13 +8,13 @@ package memory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import navigation.Navigation;
-import navigation.NavigationImpl;
 import navigation.DuplicateCellException;
 import utility.Coords;
 import utility.Direction;
 import utility.Sensor;
 import utility.NullSensorException;
 import utility.InvalidCoordinatesException;
+import utility.ObstacleType;
 /**
  *
  * @author James Doyle <jdoyle12@mail.depaul.edu>
@@ -24,16 +24,17 @@ public class MemoryImpl implements Memory {
     private HashMap<Coords, ObservedCell> grid;
     Navigation navigation;
     
-    MemoryImpl(Sensor sensorIn) throws NullSensorException {
+    public MemoryImpl(Sensor sensorIn, Navigation navigationIn) throws NullSensorException {
         if (sensorIn == null)
             throw new NullSensorException("Cannot link CleanSweep memory to a null sensor.");
         sensor = sensorIn;
         grid = new HashMap<>();
-        navigation = new NavigationImpl();
+        navigation = navigationIn;
     }
     
     @Override
     public void observeCell(Coords coordsIn) throws UnexpectedChangeException {
+        coordsIn = new Coords(coordsIn.x, coordsIn.y);
         ObservedCell oldCell = grid.get(coordsIn);
         if (oldCell == null) {
             ObservedCell newCell = new ObservedCell(coordsIn, sensor.checkSurfaceAtLocation(), sensor.isDirty(), sensor.hasChargingStation(), sensor.getObstacle(Direction.EAST), sensor.getObstacle(Direction.SOUTH), sensor.getObstacle(Direction.WEST), sensor.getObstacle(Direction.NORTH));
@@ -59,6 +60,7 @@ public class MemoryImpl implements Memory {
     
     @Override
     public boolean hasDirt(Coords coordsIn) throws InvalidCoordinatesException {
+        coordsIn = new Coords(coordsIn.x, coordsIn.y);
         if (!grid.containsKey(coordsIn)) 
             throw new InvalidCoordinatesException("Location " + coordsIn.toString() + " has not been explored.");
         return grid.get(coordsIn).hasDirt();
@@ -66,9 +68,30 @@ public class MemoryImpl implements Memory {
     
     @Override
     public boolean hasCharger(Coords coordsIn) throws InvalidCoordinatesException {
+        coordsIn = new Coords(coordsIn.x, coordsIn.y);
         if (!grid.containsKey(coordsIn)) 
             throw new InvalidCoordinatesException("Location " + coordsIn.toString() + " has not been explored.");
         return grid.get(coordsIn).hasCharger();
+    }
+    
+    @Override
+    public boolean unexploredNeighbor(Coords coordsIn, Direction d) throws InvalidCoordinatesException {
+        coordsIn = new Coords(coordsIn.x, coordsIn.y);
+        if (!grid.containsKey(coordsIn))
+            throw new InvalidCoordinatesException("Location " + coordsIn.toString() + " has not been explored.");
+        ObservedCell currentCell = grid.get(coordsIn);
+        boolean accessToNeighbor = (currentCell.getObstacle(d) == ObstacleType.NONE || currentCell.getObstacle(d) == ObstacleType.OPENDOOR);
+        switch (d) {
+            case EAST:
+                return accessToNeighbor && !grid.containsKey(new Coords(coordsIn.x + 1, coordsIn.y));
+            case SOUTH:
+                return accessToNeighbor && !grid.containsKey(new Coords(coordsIn.x, coordsIn.y - 1));
+            case WEST:
+                return accessToNeighbor && !grid.containsKey(new Coords(coordsIn.x - 1, coordsIn.y));
+            case NORTH:
+                return accessToNeighbor && !grid.containsKey(new Coords(coordsIn.x, coordsIn.y + 1));
+        }
+        return false;
     }
     
     @Override
