@@ -30,11 +30,19 @@ public class LogServiceTest  {
         //Create log instance and make sure the file the log will
         //be saving to is not already there, delete it if it is
         Calendar date = Calendar.getInstance();
-        int year = date.get(Calendar.YEAR)+1;
-        int month = date.get(Calendar.YEAR);
-        int day = date.get(Calendar.YEAR);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH)+1;
+        int day = date.get(Calendar.DAY_OF_MONTH);
 
-        String todaysDate = year+""+month+""+day;
+        String todaysDate="";
+        if(day<10) {
+            todaysDate += year + "" + month + "0" + day;
+        }
+        else
+        {
+            todaysDate += year + "" + month + "" + day;
+        }
+
         fileName = "CleanSweepLog_"+todaysDate+".txt";
 
         Date dateTime = new Date();
