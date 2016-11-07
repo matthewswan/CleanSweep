@@ -5,17 +5,15 @@
  */
 package cleansweep;
 
-import java.awt.geom.Point2D;
-import utility.Direction;
-import utility.InvalidMoveException;
+import utility.Coords;
 
 /**
  *
  * @author MatthewSwan
  */
 public interface CleanSweep {
-    public void moveUp(Direction direction) throws InvalidMoveException;
-    public void moveDown(Direction direction) throws InvalidMoveException;
-    public void moveRight(Direction direction) throws InvalidMoveException;
-    public void moveLeft(Direction direction) throws InvalidMoveException;
+    public void runSimulation();
+    public Coords getInitialLocation();
+    public Coords getCurrentLocation();
+    public double getMaxChargeCapacity();
 }
