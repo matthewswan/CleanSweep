@@ -16,4 +16,5 @@ public interface CleanSweep {
     public Coords getInitialLocation();
     public Coords getCurrentLocation();
     public double getMaxChargeCapacity();
+    public double getMaxDirtCapacity();
 }

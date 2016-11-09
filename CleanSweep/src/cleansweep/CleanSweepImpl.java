@@ -30,18 +30,18 @@ import utility.Path;
  * @author James Doyle
  */
 public class CleanSweepImpl implements CleanSweep {
-    private  final int DIRT_CAPACITY = 50;
-    private  final double CHARGE_CAPACITY = 100.0;
-    private  Coords initialLocation;
-    private  Coords currentLocation;
-    private  Memory memory;
-    private  Navigation nav;
-    private  Simulator sim;
-    private  double chargeRemaining;
-    private  boolean doneCleaning;
-    private  Path nearestCharger;
-    private  Path currentPath;
-    private  int carriedDirt;
+    private final int DIRT_CAPACITY = 50;
+    private final double CHARGE_CAPACITY = 100.0;
+    private Coords initialLocation;
+    private Coords currentLocation;
+    private Memory memory;
+    private Navigation nav;
+    private Simulator sim;
+    private double chargeRemaining;
+    private boolean doneCleaning;
+    private Path nearestCharger;
+    private Path currentPath;
+    private int carriedDirt;
     
     CleanSweepImpl() {
         initialLocation = new Coords(0,0);
@@ -70,7 +70,12 @@ public class CleanSweepImpl implements CleanSweep {
         return CHARGE_CAPACITY;
     }
     
-    private  void move(Direction d) throws InvalidMoveException, UnexpectedChangeException {
+    @Override
+    public double getMaxDirtCapacity() {
+        return DIRT_CAPACITY;
+    }
+    
+    private void move(Direction d) throws InvalidMoveException, UnexpectedChangeException {
         double moveCost = 0.5 * carpetCost(sim.checkSurfaceAtLocation()) + 0.5 * carpetCost(sim.checkSurfaceAdjacent(d));
         if (moveCost > chargeRemaining)
             throw new InvalidMoveException("Not enough charge remaining to move from " + currentLocation.toString());
@@ -95,7 +100,7 @@ public class CleanSweepImpl implements CleanSweep {
 
 
 
-    public  void runSimulation() {
+    public void runSimulation() {
         // TODO code application logic here
  
         int stepsAllowed = 50; // ###
@@ -139,7 +144,7 @@ public class CleanSweepImpl implements CleanSweep {
         }
     }
     
-    public  void tryToClean() throws UnexpectedChangeException {
+    public void tryToClean() throws UnexpectedChangeException {
         CarpetType carpet = sim.checkSurfaceAtLocation();
         double cost = carpetCost(carpet);
         
@@ -153,10 +158,12 @@ public class CleanSweepImpl implements CleanSweep {
             catch (NoDirtException e) {
                 // log it here.
             }
+        } else {
+            
         }
     }
     
-    private  Path exploreCurrentCell() throws InvalidCoordinatesException {
+    private Path exploreCurrentCell() throws InvalidCoordinatesException {
         Direction exploreDirection = null;
         double movementCost = Double.MAX_VALUE;
         for(Direction d : Direction.values())
@@ -180,7 +187,7 @@ public class CleanSweepImpl implements CleanSweep {
         return p;
     }
     
-    private  Path findNextPath() throws UnableToReturnToChargerException, InvalidCoordinatesException {
+    private Path findNextPath() throws UnableToReturnToChargerException, InvalidCoordinatesException {
         Path pathToFollow = null;
         Path nearestDirt = null;
         Path nearestUnexplored = null;
@@ -208,7 +215,7 @@ public class CleanSweepImpl implements CleanSweep {
         return pathToFollow;
     }
     
-    private  Path findNearestCharger() throws UnableToReturnToChargerException, InvalidCoordinatesException {
+    private Path findNearestCharger() throws UnableToReturnToChargerException, InvalidCoordinatesException {
         Path pathToCharger = null;
         try {
             pathToCharger = nav.findNearestCharger(currentLocation);
@@ -222,7 +229,7 @@ public class CleanSweepImpl implements CleanSweep {
         return pathToCharger;
     }
     
-    private  double carpetCost(CarpetType c) {
+    private double carpetCost(CarpetType c) {
         switch (c) {
             case BARE:
                 return 1.0;
@@ -234,7 +241,7 @@ public class CleanSweepImpl implements CleanSweep {
         return 0.0;
     }
     
-    private  void rechargeAndEmpty() {
+    private void rechargeAndEmpty() {
         chargeRemaining = CHARGE_CAPACITY;
         carriedDirt = 0;
     }
