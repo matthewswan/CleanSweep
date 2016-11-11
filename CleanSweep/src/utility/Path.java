@@ -5,6 +5,7 @@
  */
 package utility;
 
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -16,6 +17,7 @@ public class Path {
     Queue<Direction> sequence;
     Queue<Double> costs;
     double remainingCost;
+    Coords endCoords;
     
     public Path() {
         sequence = new LinkedList<>();
@@ -28,7 +30,11 @@ public class Path {
         costs = new LinkedList<>(pathIn.costs);
         remainingCost = pathIn.remainingCost();
     }
-    
+
+    public Coords getEndCoords(){return endCoords;}
+    public void setEndCoords(Coords value){endCoords=value;}
+    public Queue<Double> getCosts(){return new LinkedList<>(costs);}
+
     public void add(Direction d, double costIn) {
         sequence.add(d);
         costs.add(costIn);
@@ -36,6 +42,9 @@ public class Path {
     }
     
     public double nextCost() {
+        if(costs.isEmpty()){
+            return 0.0;
+        }
         return costs.peek();
     }
     
@@ -56,4 +65,5 @@ public class Path {
     public double remainingCost() {
         return remainingCost;
     }
+
 }

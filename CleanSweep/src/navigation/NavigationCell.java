@@ -72,6 +72,7 @@ public class NavigationCell {
     Path getPath() {
         return new Path(path);
     }
+
     
     void setPath(Path pathIn) {
         path = new Path(pathIn);

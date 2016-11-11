@@ -25,7 +25,9 @@ public class SimulatorImpl implements Simulator {
         currentLocation = new Coords(initialLocation.x, initialLocation.y);
         layout = new LayoutImpl(layoutFile);
     }
-    
+
+    public Coords getCurrentLocation(){return new Coords(currentLocation.x,currentLocation.y);}
+
     @Override
     public void move(Direction direction) throws InvalidMoveException {
         ObstacleType obstacle = getObstacle(direction);
