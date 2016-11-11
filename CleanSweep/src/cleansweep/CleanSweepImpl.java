@@ -145,7 +145,7 @@ public class CleanSweepImpl implements CleanSweep {
                     }
                     nearestCharger = findNearestCharger();
                     while (sim.isDirty() && chargeRemaining - carpetCost(sim.checkSurfaceAtLocation()) > nearestCharger.remainingCost())
-                        tryToClean();
+                        tryToClean(logService);
                     currentPath = exploreCurrentCell();
                     if (currentPath == null || currentPath.nextDirection() == null) {
                         currentPath = findNextPath();
@@ -189,7 +189,7 @@ public class CleanSweepImpl implements CleanSweep {
         }
     }
     
-    public void tryToClean() throws UnexpectedChangeException {
+    public void tryToClean(LogService logService) throws UnexpectedChangeException {
         CarpetType carpet = sim.checkSurfaceAtLocation();
         double cost = carpetCost(carpet);
         
@@ -201,7 +201,8 @@ public class CleanSweepImpl implements CleanSweep {
                 memory.observeCell(currentLocation);
             }
             catch (NoDirtException e) {
-                // log it here.
+                logService.writeLineToLog(e.getMessage());
+                e.printStackTrace();
             }
         } else {
 
