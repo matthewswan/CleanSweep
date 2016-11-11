@@ -99,27 +99,53 @@ public class NavigationImpl implements Navigation {
                 .filter(cell -> cell.hasCharger())
                 .toArray(NavigationCell[]::new);
         ArrayList<Path> pathsToChargers = new ArrayList<>();
+        ArrayList<ArrayList<Object>> endCoordsList = new ArrayList<>();
+        ArrayList<Object> collection = new ArrayList<Object>();
+        Path p=null;
+        Coords coord = null;
         for(NavigationCell cell : allChargerCells) {
-            Path p = findPath(location, cell.getCoords());
+            coord = cell.getCoords();
+            p = findPath(location, coord);
             pathsToChargers.add(p);
+            collection.add(p);
+            collection.add(coord);
+            endCoordsList.add(collection);
         }
         if(pathsToChargers.isEmpty())
             throw new NoPathException("No path found to any charger.");
-        return pathsToChargers.stream()
+        Path charger = pathsToChargers.stream()
                 .sorted((path1, path2) -> Double.compare(path1.remainingCost(), path2.remainingCost()))
                 .findFirst()
                 .get();
+        Coords endCoords = null;
+        for(int i =0; i<endCoordsList.size();i++){
+            if(((Path)(endCoordsList.get(i).get(0))).equals(charger)){
+                endCoords=(Coords) (endCoordsList.get(i).get(1));
+            }
+        }
+        charger.setEndCoords(endCoords);
+
+        return charger;
     }
-    
+
     @Override
     public Path findNearestDirt(Coords location) throws NoPathException, InvalidCoordinatesException {
         NavigationCell[] allDirtyCells = grid.values().stream()
                 .filter(cell -> cell.hasDirt())
                 .toArray(NavigationCell[]::new);
         ArrayList<Path> pathsToDirty = new ArrayList<>();
+        ArrayList<Coords> coordsToDirty = new ArrayList<>();
         for(NavigationCell cell : allDirtyCells) {
-            Path p = findPath(location, cell.getCoords());
-            pathsToDirty.add(p);
+            Coords cellCoords=cell.getCoords();
+            Path p = findPath(location, cellCoords);
+            if(p.getCosts().size()!=0) {
+                coordsToDirty.add(cellCoords);
+                pathsToDirty.add(p);
+            }
+        }
+
+        if(coordsToDirty.isEmpty()||(coordsToDirty.get(coordsToDirty.size()-1)).equals(location)){
+            return null;
         }
         if(pathsToDirty.isEmpty())
             throw new NoPathException("No path found to any dirty cell.");
@@ -132,14 +158,24 @@ public class NavigationImpl implements Navigation {
     @Override
     public Path findNearestUnexplored(Coords location) throws NoPathException, InvalidCoordinatesException {
         ArrayList<Path> pathsToUnexplored = new ArrayList<>();
+        ArrayList<Coords> pathsToUnexploredCoords = new ArrayList<>();
         for (NavigationCell cell : grid.values()) 
             if ((cell.canNavigate(Direction.EAST) && !grid.containsKey(new Coords(cell.getCoords().x + 1, cell.getCoords().y)))
                     || (cell.canNavigate(Direction.SOUTH) && !grid.containsKey(new Coords(cell.getCoords().x, cell.getCoords().y - 1)))
                     || (cell.canNavigate(Direction.WEST) && !grid.containsKey(new Coords(cell.getCoords().x - 1, cell.getCoords().y)))
-                    || (cell.canNavigate(Direction.NORTH) && !grid.containsKey(new Coords(cell.getCoords().x, cell.getCoords().y + 1))))
-                pathsToUnexplored.add(findPath(location, cell.getCoords()));
+                    || (cell.canNavigate(Direction.NORTH) && !grid.containsKey(new Coords(cell.getCoords().x, cell.getCoords().y + 1)))) {
+                Coords coordsUnexplored=cell.getCoords();
+                Path p = findPath(location, coordsUnexplored);
+                if(p.getCosts().size()!=0) {
+                    pathsToUnexplored.add(p);
+                    pathsToUnexploredCoords.add(coordsUnexplored);
+                }
+            }
         if (pathsToUnexplored.isEmpty())
             throw new NoPathException("No path found to any unexplored cell.");
+        if(pathsToUnexploredCoords.isEmpty()||(pathsToUnexploredCoords.get(pathsToUnexploredCoords.size()-1)).equals(location)){
+            return null;
+        }
         return pathsToUnexplored.stream()
                 .sorted((path1, path2) -> Double.compare(path1.remainingCost(), path2.remainingCost()))
                 .findFirst()

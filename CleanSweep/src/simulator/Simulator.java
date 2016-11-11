@@ -5,11 +5,8 @@
  */
 package simulator;
 
-import utility.InvalidMoveException;
-import utility.Direction;
-import utility.ObstacleType;
-import utility.CarpetType;
-import utility.Sensor;
+import utility.*;
+
 import java.util.ArrayList;
 /**
  *
@@ -18,4 +15,5 @@ import java.util.ArrayList;
 public interface Simulator extends Sensor {
     public void move(Direction direction) throws InvalidMoveException;
     public void removeDirt() throws NoDirtException;
+    public Coords getCurrentLocation();
 }
