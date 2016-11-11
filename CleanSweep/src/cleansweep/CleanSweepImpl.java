@@ -175,7 +175,7 @@ public class CleanSweepImpl implements CleanSweep {
                 }
                 logService.writeLineToLog("\r\n"+sim.toString());
                 logService.closeLog();
-                //logService.readWholeLog("");
+                logService.readWholeLog("");
             } catch (InvalidLayoutFileException | URISyntaxException | NullSensorException | UnexpectedChangeException | InvalidCoordinatesException | UnableToReturnToChargerException | InvalidMoveException | NoMoreDirectionsException e) {
                 System.err.println(e.getMessage());
                 e.printStackTrace();
