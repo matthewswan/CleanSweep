@@ -65,10 +65,11 @@
       <classpath location="/Users/alexluka/desktop/CleanSweepAutoBuild/CleanSweep/CleanSweep/bin/*"/>
       -->
       <formatter type="plain"/>
-      <test name="cleansweep.CleanSweepTests"/>
+      <test name="cleansweep.CleanSweepImplTest"/>
       <test name="logger.LogServiceTest"/>
       <test name="memory.MemoryImplTest"/>
       <test name="memory.ObservedCellTest"/>
+      <test name="navigation.NavigationCellTest"/>
       <test name="navigation.NavigationImplTest"/>
       <test name="simulator.LayoutCellTest"/>
       <test name="simulator.LayoutImplTest"/>
