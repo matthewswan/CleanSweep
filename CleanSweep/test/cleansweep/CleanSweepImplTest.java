@@ -164,5 +164,20 @@ public class CleanSweepImplTest {
 
         assertEquals(cleanSweep.getNearestChargerCoords(), cleanSweep.getSimulator().getCurrentLocation());
     }
+    
+    @Test
+    public void testNoStairTraversal() throws Exception {
+        CleanSweepImpl cleanSweep = new CleanSweepImpl();
+        URL fileUrl = SimulatorFactory.class.getResource("samplefloorplan.txt");
+        String path = fileUrl.toURI().getPath();
+        Simulator simulator = SimulatorFactory.createSimulator(path, 4, 0);
+        MemoryImpl memory =new MemoryImpl(simulator, new NavigationImpl());
+        Coords coord = new Coords(4,0);
+        memory.observeCell(coord);
+        Path testReturnPath = cleanSweep.exploreCurrentCellTest(coord, memory, simulator);
+
+        assertEquals("STAIRSDOWN",simulator.getObstacle(Direction.SOUTH).toString());
+        assertTrue(testReturnPath.nextDirection() == Direction.EAST); 
+    }
 
 }
